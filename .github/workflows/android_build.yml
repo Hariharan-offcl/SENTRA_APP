@@ -31,15 +31,22 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Aggressive JCenter Removal
+      - name: Aggressive JCenter and Library Fixes
         run: |
-          echo "Removing jcenter() from ALL gradle files in the entire workspace..."
-          # This searches EVERY folder, including node_modules, for any .gradle file
+          echo "Removing jcenter() from ALL gradle files..."
           find . -type f -name "*.gradle" -exec sed -i 's/jcenter()/mavenCentral()/g' {} +
           find . -type f -name "*.gradle" -exec sed -i 's/jcenter //g' {} +
 
-          echo "Verifying if jcenter still exists..."
-          grep -r "jcenter()" . || echo "No more jcenter() calls found!"
+          echo "Fixing react-native-foreground-service compilation error..."
+          # The error is caused by a missing drawable reference in the library's Java code.
+          # We replace the problematic reference with a standard Android system icon (android.R.drawable.ic_dialog_info).
+          TARGET_FILE="node_modules/react-native-foreground-service/android/src/main/java/com/supersami/foregroundservice/NotificationHelper.java"
+          if [ -f "$TARGET_FILE" ]; then
+            sed -i 's/R.drawable.redbox_top_border_background/android.R.drawable.ic_dialog_info/g' "$TARGET_FILE"
+            echo "Successfully patched NotificationHelper.java"
+          else
+            echo "Could not find NotificationHelper.java, skipping patch"
+          fi
 
       - name: Make Gradlew Executable
         run: chmod +x android/gradlew
