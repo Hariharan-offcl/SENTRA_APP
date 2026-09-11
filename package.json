@@ -18,6 +18,8 @@
     "@react-navigation/native": "^7.3.18",
     "@react-navigation/stack": "^7.10.24",
     "axios": "^1.20.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
     "react": "19.2.3",
     "react-native": "0.87.1",
     "react-native-foreground-service": "^1.0.0",
@@ -28,6 +30,7 @@
     "react-native-webrtc": "^124.0.8",
     "react-native-webview": "^14.0.1",
     "styled-components": "^6.5.3",
+    "ws": "^8.21.3",
     "zustand": "^5.0.15"
   },
   "devDependencies": {
