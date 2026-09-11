@@ -5,7 +5,7 @@ on:
     branches: [ "main", "master" ]
   pull_request:
     branches: [ "main", "master" ]
-  workflow_dispatch: # Allows manual trigger
+  workflow_dispatch:
 
 jobs:
   build:
@@ -31,13 +31,19 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Fix JCenter Deprecation
+        run: |
+          sed -i 's/jcenter()/mavenCentral()/g' android/build.gradle || true
+          find android -name "*.gradle" -exec sed -i 's/jcenter()/mavenCentral()/g' {} +
+          find android -name "*.gradle" -exec sed -i 's/jcenter() //g' {} +
+
       - name: Make Gradlew Executable
         run: chmod +x android/gradlew
 
       - name: Build Debug APK
         run: |
           cd android
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug -Pandroid.newDsl=false
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
