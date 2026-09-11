@@ -31,11 +31,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Fix JCenter Deprecation
+      - name: Aggressive JCenter Removal
         run: |
-          sed -i 's/jcenter()/mavenCentral()/g' android/build.gradle || true
-          find android -name "*.gradle" -exec sed -i 's/jcenter()/mavenCentral()/g' {} +
-          find android -name "*.gradle" -exec sed -i 's/jcenter() //g' {} +
+          echo "Removing jcenter() from ALL gradle files in the entire workspace..."
+          # This searches EVERY folder, including node_modules, for any .gradle file
+          find . -type f -name "*.gradle" -exec sed -i 's/jcenter()/mavenCentral()/g' {} +
+          find . -type f -name "*.gradle" -exec sed -i 's/jcenter //g' {} +
+
+          echo "Verifying if jcenter still exists..."
+          grep -r "jcenter()" . || echo "No more jcenter() calls found!"
 
       - name: Make Gradlew Executable
         run: chmod +x android/gradlew
@@ -43,7 +47,7 @@ jobs:
       - name: Build Debug APK
         run: |
           cd android
-          ./gradlew assembleDebug -Pandroid.newDsl=false
+          ./gradlew assembleDebug -Pandroid.newDsl=false --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
