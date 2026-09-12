@@ -23,6 +23,7 @@
     "react": "19.2.3",
     "react-native": "0.87.1",
     "react-native-foreground-service": "^1.0.0",
+    "react-native-gesture-handler": "^3.3.0",
     "react-native-keep-awake": "^4.0.0",
     "react-native-permissions": "^5.6.1",
     "react-native-safe-area-context": "^5.9.1",
