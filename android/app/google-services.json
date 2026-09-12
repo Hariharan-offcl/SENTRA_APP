@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "37115193606",
+    "project_id": "sentra-d5f66",
+    "storage_bucket": "sentra-d5f66.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:37115193606:android:5367b3ce35b764db3ad687",
+        "android_client_info": {
+          "package_name": "com.sentra"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvuH_GjtkEBRK2JrN0HShCKz2YFM2FyOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
